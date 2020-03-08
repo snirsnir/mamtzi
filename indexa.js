@@ -32,6 +32,12 @@ fileButton.addEventListener('change',function(e){
 } );
 // ening uploading pic
 function send(){
+	//GET DATE
+	var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = dd + '/' + mm + '/' + yyyy;
 	/////////////////////////////////////////////////// start of person
 	var counter = 0;
 	var first1 = document.getElementById("first1").value;
@@ -56,7 +62,7 @@ function send(){
 	/////////////////////////////////////////////////// end of invent
 	var firebaseRef = firebase.database().ref('students').child(randNum);
 	var names = [first1, last1, first2 , last2 , first3 , last3 ];
-	if(isSendClicked === false & check_email(email) & check_phone(phone) & check_write(first1,'first1s') & check_write(inventName,'invents') & check_write(littleDesc,'inventds') & check_write(wideDesc,'wideds') & check_write(schoolName,'schools')  ){
+	if(isSendClicked === false & check_email(email) & check_phone(phone) & check_write(first1,'first1s') & check_write(inventName,'invents') & check_write(littleDesc,'inventds') & check_write(wideDesc,'wideds') & check_write(schoolName,'schools') & check_write(Class,'classs')  ){
 		isSendClicked = true;
 		document.getElementById("bad_phone").style.visibility = "hidden";
 	    document.getElementById("bad_email").style.visibility = "hidden";
@@ -80,6 +86,7 @@ function send(){
 			counter++;
 		}
 }
+    firebaseRef.child("0_תאריך רישום").set(today);
 	firebaseRef.child("א_מספר המצאה").set(randNum);
 	firebaseRef.child("ט_אימייל").set(email);
 	firebaseRef.child("י_טלפון").set(phone);
@@ -155,6 +162,10 @@ function check_write (val,flag){
 				 }
 		else if (flag == 'schools'){
 				 document.getElementById("schools").innerHTML = '*חובה להזין שם בית ספר';
+			
+				 }
+		else if (flag == 'classs'){
+				 document.getElementById("classs").innerHTML = '*חובה להזין כיתה';
 			
 				 }
 		return false
